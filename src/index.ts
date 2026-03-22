@@ -283,14 +283,14 @@ class AuthService {
    * Check if a username is available
    */
   async checkUsername(username: string): Promise<{ available: boolean }> {
-    return this.http.get<{ available: boolean }>('/auth/check-username', { username });
+    return this.http.get<{ available: boolean }>(`/auth/check-username/${username}`);
   }
 
   /**
    * Verify two-factor authentication code
    */
   async verifyTwoFactor(data: Types.TwoFactorVerifyRequest): Promise<Types.LoginResponse> {
-    return this.http.post<Types.LoginResponse>('/two-factor/verify', data);
+    return this.http.post<Types.LoginResponse>('/auth/2fa/verify', data);
   }
 
   /**
@@ -1089,35 +1089,35 @@ class TwoFactorService {
    * Enable two-factor authentication
    */
   async enable(password: string): Promise<Types.TwoFactorSetupResponse> {
-    return this.http.post<Types.TwoFactorSetupResponse>('/two-factor/enable', { password });
+    return this.http.post<Types.TwoFactorSetupResponse>('/auth/2fa/enable', { password });
   }
 
   /**
    * Disable two-factor authentication
    */
   async disable(password: string, code: string): Promise<void> {
-    await this.http.post('/two-factor/disable', { password, code });
+    await this.http.post('/auth/2fa/disable', { password, code });
   }
 
   /**
    * Verify two-factor code
    */
   async verify(code: string): Promise<void> {
-    await this.http.post('/two-factor/verify', { code });
+    await this.http.post('/auth/2fa/verify', { code });
   }
 
   /**
    * Get backup codes
    */
   async getBackupCodes(): Promise<Types.BackupCodesResponse> {
-    return this.http.get<Types.BackupCodesResponse>('/two-factor/backup-codes');
+    return this.http.get<Types.BackupCodesResponse>('/auth/2fa/backup-codes');
   }
 
   /**
    * Regenerate backup codes
    */
   async regenerateBackupCodes(password: string): Promise<Types.BackupCodesResponse> {
-    return this.http.post<Types.BackupCodesResponse>('/two-factor/regenerate-backup-codes', { password });
+    return this.http.post<Types.BackupCodesResponse>('/auth/2fa/backup-codes/regenerate', { password });
   }
 }
 
