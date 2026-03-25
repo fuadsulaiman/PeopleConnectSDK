@@ -212,13 +212,13 @@ var AuthService = class {
    * Check if a username is available
    */
   async checkUsername(username) {
-    return this.http.get("/auth/check-username", { username });
+    return this.http.get(`/auth/check-username/${username}`);
   }
   /**
    * Verify two-factor authentication code
    */
   async verifyTwoFactor(data) {
-    return this.http.post("/two-factor/verify", data);
+    return this.http.post("/auth/2fa/verify", data);
   }
   /**
    * Request password reset email
@@ -882,31 +882,31 @@ var TwoFactorService = class {
    * Enable two-factor authentication
    */
   async enable(password) {
-    return this.http.post("/two-factor/enable", { password });
+    return this.http.post("/auth/2fa/enable", { password });
   }
   /**
    * Disable two-factor authentication
    */
   async disable(password, code) {
-    await this.http.post("/two-factor/disable", { password, code });
+    await this.http.post("/auth/2fa/disable", { password, code });
   }
   /**
    * Verify two-factor code
    */
   async verify(code) {
-    await this.http.post("/two-factor/verify", { code });
+    await this.http.post("/auth/2fa/verify", { code });
   }
   /**
    * Get backup codes
    */
   async getBackupCodes() {
-    return this.http.get("/two-factor/backup-codes");
+    return this.http.get("/auth/2fa/backup-codes");
   }
   /**
    * Regenerate backup codes
    */
   async regenerateBackupCodes(password) {
-    return this.http.post("/two-factor/regenerate-backup-codes", { password });
+    return this.http.post("/auth/2fa/backup-codes/regenerate", { password });
   }
 };
 var ReportsService = class {
